@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="auth-layout">
+  <article class="card auth-card">
+    <span class="eyebrow">{% if mode == 'edit' %}Update task{% else %}Create task{% endif %}</span>
+    <h1>{% if mode == 'edit' %}Edit task{% else %}New task{% endif %}</h1>
+    {% if validation_errors %}
+      <div class="form-errors">
+        {% for error in validation_errors %}
+          <p>{{ error.msg }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <form class="form" method="post" action="{% if mode == 'edit' %}/tasks/{{ task.id }}/edit{% else %}/tasks/new{% endif %}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <label>
+        <span>Title</span>
+        <input type="text" name="title" value="{{ task.title if task else '' }}" minlength="3" maxlength="160" required>
+      </label>
+      <label>
+        <span>Description</span>
+        <textarea name="description" rows="5">{{ task.description if task and task.description else '' }}</textarea>
+      </label>
+      <div class="grid-2 compact">
+        <label>
+          <span>Status</span>
+          <select name="status">
+            {% set current_status = task.status if task else 'todo' %}
+            <option value="todo" {% if current_status == 'todo' %}selected{% endif %}>To do</option>
+            <option value="in_progress" {% if current_status == 'in_progress' %}selected{% endif %}>In progress</option>
+            <option value="done" {% if current_status == 'done' %}selected{% endif %}>Done</option>
+            <option value="blocked" {% if current_status == 'blocked' %}selected{% endif %}>Blocked</option>
+          </select>
+        </label>
+        <label>
+          <span>Priority</span>
+          <select name="priority">
+            {% set current_priority = task.priority if task else 'medium' %}
+            <option value="low" {% if current_priority == 'low' %}selected{% endif %}>Low</option>
+            <option value="medium" {% if current_priority == 'medium' %}selected{% endif %}>Medium</option>
+            <option value="high" {% if current_priority == 'high' %}selected{% endif %}>High</option>
+            <option value="urgent" {% if current_priority == 'urgent' %}selected{% endif %}>Urgent</option>
+          </select>
+        </label>
+      </div>
+      <label>
+        <span>Due date</span>
+        <input type="date" name="due_date" value="{{ task.due_date if task and task.due_date else '' }}">
+      </label>
+      <button class="button button-primary" type="submit">{% if mode == 'edit' %}Save changes{% else %}Create task{% endif %}</button>
+    </form>
+  </article>
+</section>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="dashboard-header">
+  <div>
+    <span class="eyebrow">Admin dashboard</span>
+    <h1>Platform control center</h1>
+    <p>Monitor users, task volume, and role assignments.</p>
+  </div>
+</section>
+
+<section class="stats-grid">
+  <article class="card stat"><strong>{{ metrics.users }}</strong><span>Users</span></article>
+  <article class="card stat"><strong>{{ metrics.tasks }}</strong><span>Tasks</span></article>
+  <article class="card stat"><strong>{{ stats.overdue }}</strong><span>Overdue tasks</span></article>
+  <article class="card stat"><strong>{{ metrics.active_users }}</strong><span>Active users</span></article>
+</section>
+
+<section class="grid-2">
+  <article class="card">
+    <div class="section-head">
+      <h2>Users</h2>
+      <span>{{ users | length }} accounts</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          {% for account in users %}
+            <tr>
+              <td>{{ account.full_name }}</td>
+              <td>{{ account.email }}</td>
+              <td>
+                <form class="inline-form" method="post" action="/admin/users/{{ account.id }}/role">
+                  <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+                  <select name="role" aria-label="Role for {{ account.full_name }}">
+                    <option value="user" {% if account.role == 'user' %}selected{% endif %}>user</option>
+                    <option value="admin" {% if account.role == 'admin' %}selected{% endif %}>admin</option>
+                  </select>
+                  <button class="button button-secondary" type="submit">Save</button>
+                </form>
+              </td>
+              <td>{{ 'Active' if account.is_active else 'Disabled' }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="section-head">
+      <h2>Task overview</h2>
+      <span>{{ tasks | length }} tasks</span>
+    </div>
+    <div class="task-list compact">
+      {% for task in tasks %}
+        <article class="task-card">
+          <div class="task-main">
+            <div class="task-title-row">
+              <h3>{{ task.title }}</h3>
+              <span class="pill pill-{{ task.status }}">{{ task.status.replace('_', ' ') }}</span>
+            </div>
+            <p>Owner ID: {{ task.owner_id }} | Priority: {{ task.priority }}</p>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </article>
+</section>
+{% endblock %}
+

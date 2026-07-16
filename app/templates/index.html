@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero card">
+  <div class="hero-copy">
+    <span class="eyebrow">Production-ready task platform</span>
+    <h1>Ship work faster with secure dashboards, APIs, and AWS-ready deployment.</h1>
+    <p>
+      TaskFlow Pro helps teams manage tasks with role-based access, structured APIs, and a clean UI that works on phones,
+      tablets, and desktops.
+    </p>
+    <div class="hero-actions">
+      <a class="button button-primary" href="/register">Get started</a>
+      <a class="button button-secondary" href="/login">Sign in</a>
+    </div>
+  </div>
+  <div class="hero-panel">
+    <div class="metric">
+      <strong>Auth</strong>
+      <span>JWT cookies + CSRF protection</span>
+    </div>
+    <div class="metric">
+      <strong>Backend</strong>
+      <span>FastAPI + SQLAlchemy + REST APIs</span>
+    </div>
+    <div class="metric">
+      <strong>Deployment</strong>
+      <span>Docker, ECS, ECR, ALB, CloudWatch</span>
+    </div>
+  </div>
+</section>
+
+<section class="grid-3">
+  <article class="card feature">
+    <h2>Admin dashboard</h2>
+    <p>Manage users, review task health, and see platform metrics in one place.</p>
+  </article>
+  <article class="card feature">
+    <h2>User dashboard</h2>
+    <p>Create, update, and track tasks with a mobile-friendly workflow.</p>
+  </article>
+  <article class="card feature">
+    <h2>API-first</h2>
+    <p>REST endpoints support clean integrations and automation scripts.</p>
+  </article>
+</section>
+{% endblock %}
+

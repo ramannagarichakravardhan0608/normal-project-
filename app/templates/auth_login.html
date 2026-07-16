@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="auth-layout">
+  <article class="card auth-card">
+    <span class="eyebrow">Welcome back</span>
+    <h1>Sign in</h1>
+    <p>Use your email and password to access your dashboard.</p>
+    {% if validation_errors %}
+      <div class="form-errors">
+        {% for error in validation_errors %}
+          <p>{{ error.msg }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <form class="form" method="post" action="/login">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      <label>
+        <span>Email</span>
+        <input type="email" name="email" value="{{ form_email or '' }}" autocomplete="email" required>
+      </label>
+      <label>
+        <span>Password</span>
+        <input type="password" name="password" autocomplete="current-password" required>
+      </label>
+      <button class="button button-primary" type="submit">Login</button>
+    </form>
+    <p class="muted">No account yet? <a href="/register">Create one</a></p>
+  </article>
+</section>
+{% endblock %}

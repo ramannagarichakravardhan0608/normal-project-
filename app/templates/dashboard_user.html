@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="dashboard-header">
+  <div>
+    <span class="eyebrow">User dashboard</span>
+    <h1>Hi, {{ current_user.full_name if current_user else user.full_name }}</h1>
+    <p>Track your tasks, due dates, and progress in one place.</p>
+  </div>
+  <a class="button button-primary" href="/tasks/new">New task</a>
+</section>
+
+<section class="stats-grid">
+  <article class="card stat"><strong>{{ stats.total }}</strong><span>Total tasks</span></article>
+  <article class="card stat"><strong>{{ stats.todo }}</strong><span>To do</span></article>
+  <article class="card stat"><strong>{{ stats.in_progress }}</strong><span>In progress</span></article>
+  <article class="card stat"><strong>{{ stats.done }}</strong><span>Done</span></article>
+</section>
+
+<section class="card">
+  <div class="section-head">
+    <h2>Your tasks</h2>
+    <span>{{ tasks | length }} items</span>
+  </div>
+  {% if tasks %}
+    <div class="task-list">
+      {% for task in tasks %}
+        <article class="task-card">
+          <div class="task-main">
+            <div class="task-title-row">
+              <h3>{{ task.title }}</h3>
+              <span class="pill pill-{{ task.status }}">{{ task.status.replace('_', ' ') }}</span>
+            </div>
+            {% if task.description %}
+              <p>{{ task.description }}</p>
+            {% endif %}
+            <div class="task-meta">
+              <span>Priority: {{ task.priority }}</span>
+              <span>Due: {{ task.due_date or 'No deadline' }}</span>
+            </div>
+          </div>
+          <div class="task-actions">
+            <a class="button button-secondary" href="/tasks/{{ task.id }}/edit">Edit</a>
+            <form method="post" action="/tasks/{{ task.id }}/delete">
+              <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+              <button class="button button-danger" type="submit" data-confirm="Delete this task?">Delete</button>
+            </form>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <h3>No tasks yet</h3>
+      <p>Create your first task to get started.</p>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}
+

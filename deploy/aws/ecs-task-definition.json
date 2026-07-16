@@ -1,0 +1,55 @@
+{
+  "family": "taskflow-pro",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "executionRoleArn": "arn:aws:iam::123456789012:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::123456789012:role/taskflowAppTaskRole",
+  "containerDefinitions": [
+    {
+      "name": "web",
+      "image": "123456789012.dkr.ecr.ap-south-1.amazonaws.com/taskflow-pro:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8000,
+          "hostPort": 8000,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        { "name": "APP_NAME", "value": "TaskFlow Pro" },
+        { "name": "ENVIRONMENT", "value": "production" },
+        { "name": "DATABASE_URL", "value": "postgresql+psycopg://taskflow:REPLACE_ME@db-hostname:5432/taskflow" },
+        { "name": "ACCESS_TOKEN_EXPIRE_MINUTES", "value": "480" },
+        { "name": "COOKIE_SECURE", "value": "true" },
+        { "name": "AUTO_SEED", "value": "false" }
+      ],
+      "secrets": [
+        { "name": "SECRET_KEY", "valueFrom": "arn:aws:secretsmanager:ap-south-1:123456789012:secret:taskflow/SECRET_KEY" },
+        { "name": "ADMIN_EMAIL", "valueFrom": "arn:aws:secretsmanager:ap-south-1:123456789012:secret:taskflow/ADMIN_EMAIL" },
+        { "name": "ADMIN_PASSWORD", "valueFrom": "arn:aws:secretsmanager:ap-south-1:123456789012:secret:taskflow/ADMIN_PASSWORD" }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/taskflow-pro",
+          "awslogs-region": "ap-south-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "healthCheck": {
+        "command": [
+          "CMD-SHELL",
+          "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health').read()\""
+        ],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 30
+      }
+    }
+  ]
+}
+
