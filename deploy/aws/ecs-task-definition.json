@@ -4,12 +4,12 @@
   "requiresCompatibilities": ["FARGATE"],
   "cpu": "512",
   "memory": "1024",
-  "executionRoleArn": "arn:aws:iam::123456789012:role/ecsTaskExecutionRole",
-  "taskRoleArn": "arn:aws:iam::123456789012:role/taskflowAppTaskRole",
+  "executionRoleArn": "arn:aws:iam::810448722017:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:iam::810448722017:role/taskflowAppTaskRole",
   "containerDefinitions": [
     {
       "name": "web",
-      "image": "123456789012.dkr.ecr.ap-south-1.amazonaws.com/taskflow-pro:latest",
+      "image": "810448722017.dkr.ecr.ap-south-1.amazonaws.com/taskflow-pro:latest",
       "essential": true,
       "portMappings": [
         {
@@ -27,9 +27,9 @@
         { "name": "AUTO_SEED", "value": "false" }
       ],
       "secrets": [
-        { "name": "SECRET_KEY", "valueFrom": "arn:aws:secretsmanager:ap-south-1:123456789012:secret:taskflow/SECRET_KEY" },
-        { "name": "ADMIN_EMAIL", "valueFrom": "arn:aws:secretsmanager:ap-south-1:123456789012:secret:taskflow/ADMIN_EMAIL" },
-        { "name": "ADMIN_PASSWORD", "valueFrom": "arn:aws:secretsmanager:ap-south-1:123456789012:secret:taskflow/ADMIN_PASSWORD" }
+        { "name": "SECRET_KEY", "valueFrom": "arn:aws:secretsmanager:ap-south-1:810448722017:secret:taskflow/SECRET_KEY" },
+        { "name": "ADMIN_EMAIL", "valueFrom": "arn:aws:secretsmanager:ap-south-1:810448722017:secret:taskflow/ADMIN_EMAIL" },
+        { "name": "ADMIN_PASSWORD", "valueFrom": "arn:aws:secretsmanager:ap-south-1:810448722017:secret:taskflow/ADMIN_PASSWORD" }
       ],
       "logConfiguration": {
         "logDriver": "awslogs",
@@ -52,4 +52,3 @@
     }
   ]
 }
-

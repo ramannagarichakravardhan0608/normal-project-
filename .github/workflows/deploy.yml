@@ -13,7 +13,7 @@ jobs:
       id-token: write
       contents: read
     env:
-      AWS_REGION: ap-south-2
+      AWS_REGION: ap-south-1
     steps:
       - name: Validate required secrets
         env:

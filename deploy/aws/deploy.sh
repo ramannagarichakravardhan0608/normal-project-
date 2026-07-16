@@ -15,10 +15,9 @@ docker push "${IMAGE_URI}"
 
 TASK_DEF_FILE="deploy/aws/ecs-task-definition.json"
 TEMP_FILE="$(mktemp)"
-sed "s|123456789012.dkr.ecr.ap-south-1.amazonaws.com/taskflow-pro:latest|${IMAGE_URI}|g" "${TASK_DEF_FILE}" > "${TEMP_FILE}"
+sed "s|810448722017.dkr.ecr.ap-south-1.amazonaws.com/taskflow-pro:latest|${IMAGE_URI}|g" "${TASK_DEF_FILE}" > "${TEMP_FILE}"
 
 aws ecs register-task-definition --cli-input-json "file://${TEMP_FILE}" >/dev/null
 aws ecs update-service --cluster "${ECS_CLUSTER}" --service "${ECS_SERVICE}" --force-new-deployment >/dev/null
 
 echo "Deployment triggered for ${IMAGE_URI}"
-
