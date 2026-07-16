@@ -21,12 +21,12 @@
       "environment": [
         { "name": "APP_NAME", "value": "TaskFlow Pro" },
         { "name": "ENVIRONMENT", "value": "production" },
-        { "name": "DATABASE_URL", "value": "postgresql+psycopg://taskflow:REPLACE_ME@db-hostname:5432/taskflow" },
         { "name": "ACCESS_TOKEN_EXPIRE_MINUTES", "value": "480" },
         { "name": "COOKIE_SECURE", "value": "true" },
         { "name": "AUTO_SEED", "value": "false" }
       ],
       "secrets": [
+        { "name": "DATABASE_URL", "valueFrom": "arn:aws:secretsmanager:ap-south-1:810448722017:secret:taskflow/DATABASE_URL" },
         { "name": "SECRET_KEY", "valueFrom": "arn:aws:secretsmanager:ap-south-1:810448722017:secret:taskflow/SECRET_KEY" },
         { "name": "ADMIN_EMAIL", "valueFrom": "arn:aws:secretsmanager:ap-south-1:810448722017:secret:taskflow/ADMIN_EMAIL" },
         { "name": "ADMIN_PASSWORD", "valueFrom": "arn:aws:secretsmanager:ap-south-1:810448722017:secret:taskflow/ADMIN_PASSWORD" }

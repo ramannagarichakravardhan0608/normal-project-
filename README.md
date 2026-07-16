@@ -90,3 +90,19 @@ flowchart LR
 - `deploy/aws/ecs-task-definition.json`
 - `deploy/aws/deploy.sh`
 
+## AWS values used in deployment
+
+- AWS account ID: `810448722017`
+- AWS region: `ap-south-1`
+- ECR repository: `taskflow-pro`
+- ECS cluster: `taskflow-pro-cluster`
+- ECS service: `taskflow-pro-service`
+- ECR image URI: `810448722017.dkr.ecr.ap-south-1.amazonaws.com/taskflow-pro:latest`
+
+GitHub Secrets required:
+
+- `AWS_ROLE_ARN`
+- `AWS_ACCOUNT_ID`
+- `ECR_REPOSITORY`
+- `ECS_CLUSTER`
+- `ECS_SERVICE`
